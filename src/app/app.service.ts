@@ -6,7 +6,7 @@ export class AppService {
   constructor(private redis: RedisService) {}
 
   getHello(): string {
-    return 'Hello World!!';
+    return 'Hello World!';
   }
 
   public async getNumVisits() {
