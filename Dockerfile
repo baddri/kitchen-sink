@@ -4,7 +4,7 @@ WORKDIR /code
 COPY . .
 RUN npm install -g pnpm
 RUN pnpm install
-EXPOSE ${WEB_PORT}
+EXPOSE ${BACKEND_PORT}
 
 # Development
 FROM base as dev
