@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - ${WEB_PORT}:${WEB_PORT}
+    command: ["pnpm", "run", "start:dev"]
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"
+    ports:
+      - ${REDIS_PORT}:6379
