@@ -1,5 +1,6 @@
 services:
-  backenddev:
+  backend:
+    container_name: backend-dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,7 +11,10 @@ services:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
       - redis
+    stdin_open: true
+    tty: true
   redis:
+    container_name: redis_dev
     image: "redis:alpine"
     ports:
       - ${REDIS_PORT}:6379

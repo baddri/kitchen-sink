@@ -23,11 +23,18 @@ i try to create most of of the things i know into this single simple project
 - [ ] Blacklist IP
 
 ### Technique
-- [ ] Scheduling Update data
+- [ ] Task Scheduling Update data
 - [ ] Queuing Process
+- [ ] Create Meaningfull Telemetry
+- [ ] Event driven process
+- [ ] Websockets
 
 ### Miscelanious
 - [ ] Enable Versioning
+- [ ] Unit Testing
+- [ ] e2e Testing
+- [ ] API Documentation
+- [ ] Code Documentation
 
 ## Installation
 
@@ -37,28 +44,24 @@ $ pnpm install
 
 ## Running the app
 
+### Development
 ```bash
-# development
-$ pnpm run start
+# run compose up
+$ docker compose up -d
 
-# watch mode
-$ pnpm run start:dev
+# open log
+$ docker attach backend-dev
 
-# production mode
-$ pnpm run start:prod
 ```
 
-## Test
-
+### Testing
 ```bash
-# unit tests
-$ pnpm run test
+# run compose up
+$ docker compose -f compose-test.yml up -d
 
-# e2e tests
-$ pnpm run test:e2e
+# attach to terminal
+$ docker attach backend-test
 
-# test coverage
-$ pnpm run test:cov
 ```
 
 ## Support

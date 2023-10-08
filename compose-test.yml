@@ -1,5 +1,6 @@
 services:
   backendtest:
+    container_name: backend-test
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,5 +9,10 @@ services:
       - .:/code
     depends_on:
       - redis
+    stdin_open: true
+    tty: true
   redis:
+    container_name: redis_test
     image: "redis:alpine"
+    ports:
+      - ${REDIS_PORT}:6379
