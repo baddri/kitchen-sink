@@ -13,6 +13,6 @@ services:
     tty: true
   redis:
     container_name: redis_test
-    image: "redis:alpine"
+    image: "redis/redis-stack:latest"
     ports:
       - ${REDIS_PORT}:6379

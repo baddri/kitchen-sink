@@ -35,6 +35,7 @@ i try to create most of of the things i know into this single simple project
 - [ ] e2e Testing
 - [ ] API Documentation
 - [ ] Code Documentation
+- [ ] Error with ID
 
 ## Installation
 
