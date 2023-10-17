@@ -14,4 +14,9 @@ export class AppController {
   public async getNumberVisits() {
     return this.appService.getNumVisits();
   }
+
+  @Get('/test')
+  public async testSurreal() {
+    return await this.appService.testSurreal();
+  }
 }

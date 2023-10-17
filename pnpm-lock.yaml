@@ -29,6 +29,9 @@ dependencies:
   rxjs:
     specifier: ^7.8.1
     version: 7.8.1
+  surrealdb.node:
+    specifier: ^0.2.0
+    version: 0.2.0
 
 devDependencies:
   '@nestjs/cli':
@@ -5421,6 +5424,131 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /surrealdb.node-android-arm-eabi@0.2.0:
+    resolution: {integrity: sha512-RXZEU31bsJgf+XjfXGC8mGgx0O2k3z/E/zXfpHDstBKOWHc54Qm+GJpxtDqwwexFbTNLQ3lQgTPchPbwyfz7Tw==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-android-arm64@0.2.0:
+    resolution: {integrity: sha512-CtJ/3ljqLOSBWuRMIliQ+jlqL4bP6b1CqIOACcSUaHJKbto2SG6ZrBcZByp6WxMwn/cquZQXhZdA2PEdrl9zjQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-darwin-arm64@0.2.0:
+    resolution: {integrity: sha512-IIRd6y/nKwd71+Bro+kfQsgCasOu6+iimeD5y9NYeOXhS/ZHIH7Dm052scqn+WIBCwpnq0Aiwjkn2/EMpUSQVw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-darwin-universal@0.2.0:
+    resolution: {integrity: sha512-+lVOQzhylQ9HcTPg5+hZJNrPd2PQh4ZRwSPyOMrOyDz++AzsbB8bj23JA1gUuHstYGQRNri8UdJ+sDXSKjiPZQ==}
+    engines: {node: '>= 10'}
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-darwin-x64@0.2.0:
+    resolution: {integrity: sha512-drofSyy3KvXIrZiT843f9up2YLvzzme5EFxPdeKZrVQPVdr10dPRNVN+3KszXM06p1gT3jw/iMGiz0HSNkOJlg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-freebsd-x64@0.2.0:
+    resolution: {integrity: sha512-68EbhDH3MVG1DsfdPn1odyrsWTILKmv/vgHiW/S590v4QPcrgQ0/th1yZkFdrhAA0BVSRA3XluigrXqa5KM4bg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-linux-arm64-gnu@0.2.0:
+    resolution: {integrity: sha512-P7MhnMFLTxFZDBzrYk/BVG2mectl7kv+Dgati4d1Nzne0OnQuZcT65YVAHbxiVdhjgGWMiRodkPU3aJs4kd7rQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-linux-arm64-musl@0.2.0:
+    resolution: {integrity: sha512-ww4fAsu9dX+QS3WzjN8WtbfiJP7yqlfq+Y1TTkjlKqyDCLUeqzZRWdVESzgc88YPL6FBnU5sL5xtCX4uvdCNlA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-linux-x64-gnu@0.2.0:
+    resolution: {integrity: sha512-kUiraIiA/H25ikJOcNSEamZ4/9hd+NTJqZJFrkSzuq6OOJTpWxEqtQBt2BAz6XdA0PyMzs3rOpQIC6KeFLo4Bw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-linux-x64-musl@0.2.0:
+    resolution: {integrity: sha512-4bgf6e2V+Bs+q/nyUhgBd4Kyu1KTQ97O1ya3N7anTL0TFohs/m8lj3R3JrDjSQfSG2ly7ZDVdKM43qlkzL2CTw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-win32-ia32-msvc@0.2.0:
+    resolution: {integrity: sha512-mTjuLPlip4VBYq0SZQHDsHEYiDwogeQ5vc90UyA0+prSxONUYleqK65ekqMhUEVd91Kyssq4jrYuwEqPqn5z5Q==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node-win32-x64-msvc@0.2.0:
+    resolution: {integrity: sha512-oUpWqphBe98M7hlNrRmJ0GZqtXTea+b+oGZlI+x2o4jBy+rnYTSJiYrFyvWuIpxqDfpLAY/9X1eyTYcq12Q60Q==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /surrealdb.node@0.2.0:
+    resolution: {integrity: sha512-g6TlDQ6tc0Cd1QtLnEAfpY8USWPDAQ7zhJaIgAgvLqLGmuZ9SUzAhWbIVhyWNykzxpQdtecYImmKGw98VEAipQ==}
+    engines: {node: '>= 10'}
+    optionalDependencies:
+      surrealdb.node-android-arm-eabi: 0.2.0
+      surrealdb.node-android-arm64: 0.2.0
+      surrealdb.node-darwin-arm64: 0.2.0
+      surrealdb.node-darwin-universal: 0.2.0
+      surrealdb.node-darwin-x64: 0.2.0
+      surrealdb.node-freebsd-x64: 0.2.0
+      surrealdb.node-linux-arm64-gnu: 0.2.0
+      surrealdb.node-linux-arm64-musl: 0.2.0
+      surrealdb.node-linux-x64-gnu: 0.2.0
+      surrealdb.node-linux-x64-musl: 0.2.0
+      surrealdb.node-win32-ia32-msvc: 0.2.0
+      surrealdb.node-win32-x64-msvc: 0.2.0
+    dev: false
 
   /symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}

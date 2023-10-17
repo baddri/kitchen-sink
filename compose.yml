@@ -1,6 +1,6 @@
 services:
   backend:
-    container_name: backend-dev
+    container_name: backend_dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,8 +11,23 @@ services:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
       - redis
+      - db
     stdin_open: true
     tty: true
+  db:
+    container_name: surreal_db
+    image: surrealdb/surrealdb
+    entrypoint: 
+      - /surreal 
+      - start 
+      - --user 
+      - $DATABASE_USER
+      - --pass 
+      - $DATABASE_PASSWORD
+      # - --log 
+      # - debug
+    ports:
+      - ${DATABASE_PORT}:8000
   redis:
     container_name: redis_dev
     image: "redis/redis-stack:latest"

@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { RedisService } from '../services/redis.service';
 import { ProductModule } from '../api/product/product.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { DatabaseService } from '../services/database.service';
 
 @Global()
 @Module({
@@ -16,7 +17,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ProductModule,
   ],
   controllers: [AppController],
-  providers: [AppService, RedisService],
-  exports: [RedisService],
+  providers: [AppService, RedisService, DatabaseService],
+  exports: [RedisService, DatabaseService],
 })
 export class AppModule {}

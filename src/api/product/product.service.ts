@@ -1,9 +1,10 @@
 import { BadRequestException, Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { RedisService } from '../../services/redis.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { DatabaseService } from '../../services/database.service';
 
-/** key for available product count */
-const PRODUCT_AVAILABLE_COUNT_KEY = 'PRODUCT_AVAILABLE_COUNT';
+/** available product table */
+const AVAILABLE_PRODUCT_TABLE = 'available_product';
 
 /** max product count */
 const MAX_PRODUCT_COUNT = 5;
@@ -14,12 +15,25 @@ const SCHEDULE_INTERVAL = CronExpression.EVERY_30_SECONDS;
 @Injectable()
 export class ProductService implements OnApplicationBootstrap {
   private logger = new Logger(ProductService.name);
-  constructor(private redis: RedisService) {}
+  constructor(
+    private redis: RedisService,
+    private db: DatabaseService,
+  ) {}
 
   // Run service lifecycle after module initialized and ready to accept connection
   async onApplicationBootstrap() {
     // set product initial value
-    await this.redis.client.json.SET(PRODUCT_AVAILABLE_COUNT_KEY, '$', 0);
+    await this.db.query(
+      `CREATE type::table($table) CONTENT {
+        number_available: $number_available,
+        timestamp: time::now(),
+        id: rand::ulid()
+      }`,
+      {
+        table: AVAILABLE_PRODUCT_TABLE,
+        number_available: 0,
+      },
+    );
   }
 
   /**
@@ -28,10 +42,22 @@ export class ProductService implements OnApplicationBootstrap {
    * @return number
    */
   public async getProductAvailableCount() {
-    const res = await this.redis.client.json.GET(PRODUCT_AVAILABLE_COUNT_KEY, {
-      path: '$',
-    });
-    return res[0];
+    return (
+      await this.db.query(
+        `
+        SELECT 
+          meta::id(id) as id, 
+          number_available,
+          timestamp,
+          time::format(timestamp, "%B %m %Y at %r") as last_updated
+        FROM type::table($table)
+        ORDER BY timestamp
+        DESC LIMIT 1`,
+        {
+          table: AVAILABLE_PRODUCT_TABLE,
+        },
+      )
+    )[0];
   }
 
   /**
@@ -40,25 +66,32 @@ export class ProductService implements OnApplicationBootstrap {
    * @type {BadRequestException} is throwed if failed
    */
   public async getOneProduct() {
-    await this.redis.client.executeIsolated(async (isolatedClient) => {
-      await isolatedClient.WATCH(PRODUCT_AVAILABLE_COUNT_KEY);
-      const count = await isolatedClient.json.GET(PRODUCT_AVAILABLE_COUNT_KEY, {
-        path: '$',
-      });
+    this.logger.log('Getting One Product');
 
-      const multi = isolatedClient.multi();
+    try {
+      await this.db.query(
+        `
+        BEGIN TRANSACTION;
 
-      if (count[0] > 0) {
-        multi.json.NUMINCRBY(PRODUCT_AVAILABLE_COUNT_KEY, '$', -1);
-      } else {
-        throw new BadRequestException('Theres no product available');
-      }
-      try {
-        await multi.EXEC();
-      } catch (error) {
-        throw new BadRequestException('Failed to get one product');
-      }
-    });
+        -- The purpose of this select is to lock this row 
+        LET $latest_row = (SELECT * FROM type::table($table) ORDER BY timestamp DESC LIMIT 1);
+
+        LET $latest_count = array::first($latest_row.number_available);
+
+        IF $latest_count > 0 THEN
+          CREATE type::table($table) SET id = rand:ulid(), number_available = $latest_count - 1, timestamp = time::now();
+        END;
+
+        COMMIT TRANSACTION;
+      `,
+        {
+          table: AVAILABLE_PRODUCT_TABLE,
+        },
+      );
+    } catch (e) {
+      this.logger.log('FAILED to get one Product');
+    }
+    this.logger.log('SUCCESS get one Product');
   }
 
   /**
@@ -66,25 +99,34 @@ export class ProductService implements OnApplicationBootstrap {
    * if the product count is already MAX then do nothing
    */
   @Cron(SCHEDULE_INTERVAL)
-  private async addOneProduct() {
+  public async addOneProduct() {
     this.logger.log('Adding One Product');
-    await this.redis.client.executeIsolated(async (isolatedClient) => {
-      await isolatedClient.WATCH(PRODUCT_AVAILABLE_COUNT_KEY);
-      const count = await isolatedClient.json.GET(PRODUCT_AVAILABLE_COUNT_KEY, {
-        path: '$',
-      });
 
-      const multi = isolatedClient.multi();
+    try {
+      await this.db.query(
+        `
+        BEGIN TRANSACTION;
 
-      if (count[0] < MAX_PRODUCT_COUNT) {
-        multi.json.NUMINCRBY(PRODUCT_AVAILABLE_COUNT_KEY, '$', 1);
-      }
-      try {
-        await multi.EXEC();
-        this.logger.log('Success add one Product');
-      } catch (error) {
-        this.logger.log('Failed to add one Product');
-      }
-    });
+        -- The purpose of this select is to lock this row 
+        LET $latest_row = (SELECT * FROM type::table($table) ORDER BY timestamp DESC LIMIT 1);
+
+        LET $latest_count = array::first($latest_row.number_available);
+
+        IF $latest_count < $max_product THEN
+          CREATE type::table($table) SET id = rand:ulid(), number_available = $latest_count + 1, timestamp = time::now();
+        END;
+
+        COMMIT TRANSACTION;
+      `,
+        {
+          table: AVAILABLE_PRODUCT_TABLE,
+          max_product: MAX_PRODUCT_COUNT,
+        },
+      );
+    } catch (e) {
+      this.logger.log('FAILED to add one Product');
+      throw new BadRequestException('Something Bad happened');
+    }
+    this.logger.log('SUCCESS add one Product');
   }
 }
